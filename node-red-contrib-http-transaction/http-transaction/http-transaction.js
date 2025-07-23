@@ -255,32 +255,37 @@ module.exports = function(RED) {
       let userConfig = {};
       let entries = [];
 
-      // Accept har as JSON or as file path in msg.payload
+      // Accept har as JSON string, JSON object, or as file path in msg.payload
       if (typeof msg.payload === 'string') {
-        // Assume file path
-        harPath = msg.payload;
-        if (!fs.existsSync(harPath)) {
-          setNodeStatus(node, 'HAR file not found', 'red', 'ring');
-          const err = new Error('HAR file not found: ' + harPath);
-          if (done) return done(err);
-          node.error(err, msg);
-          return;
-        }
+        // Try to parse as JSON string first
         try {
-          harData = JSON.parse(fs.readFileSync(harPath, 'utf-8'));
-        } catch (e) {
-          setNodeStatus(node, 'HAR file invalid JSON', 'red', 'ring');
-          const err = new Error('HAR file is not valid JSON: ' + harPath);
-          if (done) return done(err);
-          node.error(err, msg);
-          return;
+          harData = JSON.parse(msg.payload);
+        } catch (jsonErr) {
+          // If not valid JSON, treat as file path
+          harPath = msg.payload;
+          if (!fs.existsSync(harPath)) {
+            setNodeStatus(node, 'HAR file not found', 'red', 'ring');
+            const err = new Error('HAR file not found: ' + harPath);
+            if (done) return done(err);
+            node.error(err, msg);
+            return;
+          }
+          try {
+            harData = JSON.parse(fs.readFileSync(harPath, 'utf-8'));
+          } catch (e) {
+            setNodeStatus(node, 'HAR file invalid JSON', 'red', 'ring');
+            const err = new Error('HAR file is not valid JSON: ' + harPath);
+            if (done) return done(err);
+            node.error(err, msg);
+            return;
+          }
         }
       } else if (typeof msg.payload === 'object' && msg.payload !== null) {
         // Assume HAR JSON object
         harData = msg.payload;
       } else {
         setNodeStatus(node, 'msg.payload missing/invalid', 'red', 'ring');
-        const err = new Error('msg.payload must be a HAR file path (string) or HAR JSON object');
+        const err = new Error('msg.payload must be a HAR file path (string), HAR JSON string, or HAR JSON object');
         if (done) return done(err);
         node.error(err, msg);
         return;
