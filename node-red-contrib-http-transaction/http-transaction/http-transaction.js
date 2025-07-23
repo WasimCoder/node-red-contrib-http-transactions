@@ -398,5 +398,5 @@ module.exports = function(RED) {
     });
   }
 
-  RED.nodes.registerType('har-analyser', HARAnalyserNode);
+  RED.nodes.registerType('http-transaction', HARAnalyserNode);
 }

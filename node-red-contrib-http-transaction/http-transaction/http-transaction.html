@@ -1,22 +1,26 @@
 <script type="text/javascript">
-    RED.nodes.registerType('har-analyser', {
+    RED.nodes.registerType('http-transaction', {
         category: 'function',
-        color: '#C0DEED',
+        color: '#e2d96e',
         defaults: {
-            name: {value:""},
+            name: { value: "" },
+            options: { value: "" }
         },
-        inputs:1,
-        outputs:1,
+        inputs: 1,
+        outputs: 1,
         icon: "file.png",
         label: function() {
-            return this.name || "har-analyser";
+            return this.name || "http-transaction";
         }
     });
 </script>
-
+<div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+</div>
 <!--
-  Node-RED Node: har-analyser
-  ===========================
+  Node-RED Node: http-transaction
+  ================================
   **Description:**
   Processes HTTP Archive (HAR) files to analyze and replay web transactions. Accepts a HAR file path or JSON object in `msg.payload`.
   Optionally accepts a configuration object in `msg.config`.
