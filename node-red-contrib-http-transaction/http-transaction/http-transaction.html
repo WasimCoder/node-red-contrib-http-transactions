@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    RED.nodes.registerType('har-analyser', {
+        category: 'function',
+        color: '#C0DEED',
+        defaults: {
+            name: {value:""},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name || "har-analyser";
+        }
+    });
+</script>
+
+<!--
+  Node-RED Node: har-analyser
+  ===========================
+  **Description:**
+  Processes HTTP Archive (HAR) files to analyze and replay web transactions. Accepts a HAR file path or JSON object in `msg.payload`.
+  Optionally accepts a configuration object in `msg.config`.
+
+  **Inputs:**
+  - `msg.payload`: (required) Either a HAR file path (string), or a HAR JSON object.
+  - `msg.config`: (optional) Configuration options to override defaults (see example below).
+
+  **Outputs:**
+  - `msg.payload`: Object with transaction metrics and summary.
+      {
+        summary: {
+          total_requests: Number,
+          successful: Number,
+          failed: Number,
+          timeout: Number,
+          error_count: Number,
+          average_response_time: Number,
+          slowest_request: String,
+          errors: Array
+        },
+        overall: {
+          overall_completion_time: Number,
+          overall_transaction_time: Number,
+          overall_availability: Number
+        },
+        details: Array, // Individual transaction results
+        config_used: Object // Final merged configuration
+      }
+  - `msg.har`: The processed HAR JSON object.
+  - `msg.config_used`: The effective configuration used for this run.
+
+  **Example Usage:**
+  [{"id":"n1","type":"har-analyser","z":"flow1","name":"","x":450,"y":250,"wires":[["n2"]]}]
+
+  **Example Input:**
+  msg.payload = "/path/to/file.har" // or msg.payload = { log: { entries: [...] } }
+  msg.config = {
+    http_request: {
+      http_version: '2',
+      method: ['GET'],
+      follow_redirects: true,
+      custom_headers: { 'x-api-key': 'KEY' },
+      user_agent: 'CustomAgent/1.0'
+    },
+    http_response: {
+      desired_status_code: '2xx',
+      verify_content: 'success'
+    }
+  }
+
+  **Status:**
+  - "initializing..." : Node is initializing
+  - "processing X/Y" : Node is processing entries
+  - "done" : All done
+  - "error" : Input or processing error
+
+  **Notes:**
+  - Handles large HAR files efficiently using async/await and chunked feedback.
+  - All original script features preserved.
+-->

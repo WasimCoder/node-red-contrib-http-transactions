@@ -1,0 +1,39 @@
+{
+  "name": "node-red-contrib-http-transaction",
+  "version": "1.0.0",
+  "description": "A Node-RED node for analyzing and replaying HTTP Archive (HAR) files to measure web transaction performance and availability.",
+  "main": "http-transaction/http-transaction.js",
+  "keywords": [
+    "node-red",
+    "har",
+    "http",
+    "transaction",
+    "performance",
+    "metrics",
+    "web",
+    "monitoring",
+    "automation"
+  ],
+  "node-red": {
+    "nodes": {
+      "har-analyser": "http-transaction/http-transaction.js"
+    }
+  },
+  "author": "Your Name <your@email.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/axios": "^0.14.0",
+    "typescript": "^5.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/node-red-contrib-http-transaction"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
