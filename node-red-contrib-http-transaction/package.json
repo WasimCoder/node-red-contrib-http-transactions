@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-http-transaction",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Node-RED node for analyzing and replaying HTTP Archive (HAR) files to measure web transaction performance and availability.",
   "keywords": [
     "node-red",
