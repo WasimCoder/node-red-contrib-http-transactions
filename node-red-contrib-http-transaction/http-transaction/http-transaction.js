@@ -394,8 +394,6 @@ module.exports = function(RED) {
       }
 
       msg.payload = report;
-      msg.har = harData;
-      msg.config_used = configUsed;
 
       setNodeStatus(node, 'done', 'green', 'dot');
       send(msg);
